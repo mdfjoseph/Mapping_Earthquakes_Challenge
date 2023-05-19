@@ -157,6 +157,7 @@ function getRadius(magnitude) {
 // 7. Creating a GeoJSON layer with the retrieved data that adds a circle to the map 
 // sets the style of the circle, and displays the magnitude and location of the earthquake
 //  after the marker has been created and styled.
+
 L.geoJson(data, {
   pointToLayer: function (feature, latlng) {
     return L.circleMarker(latlng);
@@ -202,17 +203,22 @@ legend.onAdd = function() {
     return div;
   };
 
-  // Finally, we our legend to the map.
+  // Finally, we add our legend to the map.
   legend.addTo(map);
 
 
   // 3. Use d3.json to make a call to get our Tectonic Plate geoJSON data.
   d3.json("https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json").then(function (data) {
+    console.log(data);
+
+    function styleInfo(feature) {
+      return {
+        color: "orange",
+        weight: 2.25
+      };
+    };
 		L.geoJson(data, {
-			style: {
-				color: "orange",
-				weight: 2.25
-			}
+			style: styleInfo, 
 		}).addTo(tectonicPlates);
 		tectonicPlates.addTo(map);
     
